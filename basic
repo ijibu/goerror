@@ -1,0 +1,5 @@
+multiple-value os.Open() in single-value context
+原来是哥子使用os.Open()时犯的低级错误，错误代码如下：
+  file := os.Open(fileName)
+因为os.Open()返回值有两个，所以才会出现上面的错误，正确的写法如下：
+file, err := os.Open(fileName)
