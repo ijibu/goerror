@@ -3,3 +3,14 @@ multiple-value os.Open() in single-value context
   file := os.Open(fileName)
 因为os.Open()返回值有两个，所以才会出现上面的错误，正确的写法如下：
 file, err := os.Open(fileName)
+
+2013-11-06
+f, err := os.OpenFile(fileName, os.O_CREATE, 0666)
+......
+_, err = io.Copy(f, resp.Body)
+if err != nil {
+		panic(err)
+}
+panic: write ./data/600000.xls: bad file descriptor
+是因为创建文件的时候没有加入os.O_RDWR，修改为这样就好了
+f, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE, 0666)
